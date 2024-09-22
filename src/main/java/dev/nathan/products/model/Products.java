@@ -1,50 +1,54 @@
 package dev.nathan.products.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
- * A classe Products representa a entidade de um produto no sistema.
- * Ela contém atributos como nome do produto, fornecedor, URL da imagem, preço e peso.
- * Utiliza anotações JPA para mapeamento do banco de dados.
+ * Product entity representing a product in the system.
+ * This class is mapped to a table in the database and holds
+ * all relevant product information.
  */
 @Entity
-@Table(name = "products")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Products {
+
     /**
-     * Identificador único do produto, gerado automaticamente.
+     * Unique identifier for the product.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     /**
-     * Nome do produto.
+     * Name of the product.
      */
-    String productName;
+    @Column(nullable = false)
+    private String productName;
 
     /**
-     * Fornecedor do produto.
+     * Supplier of the product.
      */
-    String supplier;
+    @Column(nullable = false)
+    private String supplier;
 
     /**
-     * URL da imagem do produto.
+     * Image URL of the product.
      */
-    String imageUrl;
+    @Column(nullable = false)
+    private String imageUrl;
 
     /**
-     * Preço do produto.
+     * Price of the product.
      */
-    double price;
+    @Column(nullable = false)
+    private double price;
 
     /**
-     * Peso do produto.
+     * Weight of the product.
      */
-    double weight;
+    @Column(nullable = false)
+    private double weight;
 }

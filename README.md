@@ -1,52 +1,56 @@
+Here’s the updated README in English for the new version of the system:
+
+---
+
 # Products API
 
-## Descrição
+## Description
 
-Esta é uma API simples de gerenciamento de produtos desenvolvida com **Spring Boot** e **JPA**. Ela permite criar, listar, atualizar e deletar produtos. A API utiliza **PostgreSQL** como banco de dados e inclui suporte ao **Lombok** para a redução de boilerplate de código.
+This is a simple product management API developed using **Spring Boot** and **JPA**. It allows you to create, list, update, and delete products. The API uses **PostgreSQL** as its database and includes support for **Lombok** to reduce boilerplate code.
 
-## Requisitos
+## Requirements
 
 - **Java 22**
 - **Maven**
 - **PostgreSQL**
 - **Spring Boot 3.3.3**
 
-## Configuração do Banco de Dados
+## Database Configuration
 
-1. Certifique-se de que o PostgreSQL está rodando em sua máquina.
-2. Crie um banco de dados com o nome desejado.
-3. Atualize o arquivo `application.properties` com suas credenciais do banco de dados:
+1. Ensure that PostgreSQL is running on your machine.
+2. Create a database with the desired name.
+3. Update the `application.properties` file with your database credentials:
 
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/seubancodedados
-spring.datasource.username=seuusuario
-spring.datasource.password=suasenha
+spring.datasource.url=jdbc:postgresql://localhost:5432/yourdatabase
+spring.datasource.username=yourusername
+spring.datasource.password=yourpassword
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 ```
 
-## Compilação e Execução
+## Build and Run
 
-Para compilar e executar o projeto, utilize os seguintes comandos no terminal:
+To build and run the project, use the following commands in your terminal:
 
 ```bash
-# Para compilar o projeto
+# To build the project
 mvn clean install
 
-# Para rodar a aplicação
+# To run the application
 mvn spring-boot:run
 ```
 
-A API estará disponível em: `http://localhost:8080`.
+The API will be available at: `http://localhost:8080`.
 
-## Endpoints da API
+## API Endpoints
 
-### 1. Adicionar um Produto
+### 1. Add a Product
 
 **URL:** `/api/products/add`  
-**Método:** `POST`  
-**Descrição:** Adiciona um novo produto.  
-**Exemplo de Payload (JSON):**
+**Method:** `POST`  
+**Description:** Adds a new product.  
+**Example Payload (JSON):**
 
 ```json
 {
@@ -58,7 +62,7 @@ A API estará disponível em: `http://localhost:8080`.
 }
 ```
 
-**Exemplo de cURL:**
+**Example cURL:**
 
 ```bash
 curl -X POST http://localhost:8080/api/products/add \
@@ -74,13 +78,13 @@ curl -X POST http://localhost:8080/api/products/add \
 
 ---
 
-### 2. Listar Todos os Produtos
+### 2. List All Products
 
 **URL:** `/api/products/all`  
-**Método:** `GET`  
-**Descrição:** Retorna uma lista com todos os produtos.
+**Method:** `GET`  
+**Description:** Returns a list of all products.
 
-**Exemplo de cURL:**
+**Example cURL:**
 
 ```bash
 curl -X GET http://localhost:8080/api/products/all
@@ -88,13 +92,13 @@ curl -X GET http://localhost:8080/api/products/all
 
 ---
 
-### 3. Buscar Produto por ID
+### 3. Get Product by ID
 
 **URL:** `/api/products/get/{id}`  
-**Método:** `GET`  
-**Descrição:** Retorna os detalhes de um produto específico, baseado no seu ID.
+**Method:** `GET`  
+**Description:** Returns the details of a specific product by its ID.
 
-**Exemplo de cURL:**
+**Example cURL:**
 
 ```bash
 curl -X GET http://localhost:8080/api/products/get/1
@@ -102,12 +106,12 @@ curl -X GET http://localhost:8080/api/products/get/1
 
 ---
 
-### 4. Atualizar um Produto
+### 4. Update a Product
 
 **URL:** `/api/products/update/{id}`  
-**Método:** `PUT`  
-**Descrição:** Atualiza os detalhes de um produto específico, baseado no seu ID.  
-**Exemplo de Payload (JSON):**
+**Method:** `PUT`  
+**Description:** Updates the details of a specific product by its ID.  
+**Example Payload (JSON):**
 
 ```json
 {
@@ -119,7 +123,7 @@ curl -X GET http://localhost:8080/api/products/get/1
 }
 ```
 
-**Exemplo de cURL:**
+**Example cURL:**
 
 ```bash
 curl -X PUT http://localhost:8080/api/products/update/1 \
@@ -135,13 +139,13 @@ curl -X PUT http://localhost:8080/api/products/update/1 \
 
 ---
 
-### 5. Deletar um Produto
+### 5. Delete a Product
 
 **URL:** `/api/products/delete/{id}`  
-**Método:** `DELETE`  
-**Descrição:** Deleta um produto específico, baseado no seu ID.
+**Method:** `DELETE`  
+**Description:** Deletes a specific product by its ID.
 
-**Exemplo de cURL:**
+**Example cURL:**
 
 ```bash
 curl -X DELETE http://localhost:8080/api/products/delete/1
@@ -149,27 +153,27 @@ curl -X DELETE http://localhost:8080/api/products/delete/1
 
 ---
 
-## Estrutura do Projeto
+## Project Structure
 
-- **Model (`Products`):** Representa a entidade de produto no banco de dados.
-- **Repository (`ProductsRepository`):** Interface que herda de `JpaRepository` para realizar operações com a entidade `Products`.
-- **Service (`ProductsService`):** Contém a lógica de negócios da aplicação, como criar, buscar, atualizar e deletar produtos.
-- **Controller (`ProductsController`):** Expõe os endpoints da API para que os produtos possam ser manipulados via requisições HTTP.
+- **Model (`Products`):** Represents the product entity in the database.
+- **Repository (`ProductsRepository`):** Interface that extends `JpaRepository` to handle operations with the `Products` entity.
+- **Service (`ProductsService`):** Contains the business logic of the application, including creating, retrieving, updating, and deleting products.
+- **Controller (`ProductsController`):** Exposes API endpoints to handle HTTP requests for managing products.
 
-## Dependências Principais
+## Main Dependencies
 
-As principais dependências usadas neste projeto, conforme definido no arquivo `pom.xml`, são:
+The main dependencies used in this project, as defined in the `pom.xml` file, include:
 
-- **Spring Boot Starter Data JPA:** Facilita a integração da aplicação com o banco de dados usando JPA.
-- **Spring Boot Starter Web:** Permite a criação de APIs REST.
-- **PostgreSQL Driver:** Driver para a conexão com o banco de dados PostgreSQL.
-- **Lombok:** Reduz o código boilerplate, como getters, setters, construtores e outros métodos utilitários.
+- **Spring Boot Starter Data JPA:** Simplifies integration with the database using JPA.
+- **Spring Boot Starter Web:** Facilitates the creation of REST APIs.
+- **PostgreSQL Driver:** Driver for connecting to the PostgreSQL database.
+- **Lombok:** Reduces boilerplate code such as getters, setters, constructors, and utility methods.
 
-## Testando a API
+## Testing the API
 
-Aqui estão exemplos de como você pode testar os endpoints da API usando JSON para enviar dados.
+Here are examples of how you can test the API endpoints using JSON to send data.
 
-### Adicionar um Produto
+### Add a Product
 
 ```bash
 curl -X POST http://localhost:8080/api/products/add \
@@ -183,19 +187,19 @@ curl -X POST http://localhost:8080/api/products/add \
          }'
 ```
 
-### Listar Todos os Produtos
+### List All Products
 
 ```bash
 curl -X GET http://localhost:8080/api/products/all
 ```
 
-### Buscar Produto por ID
+### Get Product by ID
 
 ```bash
 curl -X GET http://localhost:8080/api/products/get/1
 ```
 
-### Atualizar um Produto
+### Update a Product
 
 ```bash
 curl -X PUT http://localhost:8080/api/products/update/1 \
@@ -209,17 +213,18 @@ curl -X PUT http://localhost:8080/api/products/update/1 \
          }'
 ```
 
-### Deletar um Produto
+### Delete a Product
 
 ```bash
 curl -X DELETE http://localhost:8080/api/products/delete/1
 ```
 
-## Contato:
+## Contact
 
-Se você tiver alguma dúvida ou sugestão, sinta-se à vontade para abrir uma issue no repositório do GitHub ou enviar um e-mail para: 
-[nathanfelipi2006@gmail.com].
+If you have any questions or suggestions, feel free to open an issue in the GitHub repository or send an email to: [nathanfelipi2006@gmail.com].
 
 ---
 
-Desenvolvido com ❤️ por [Nathan Felipi Almeida].
+Developed with ❤️ by [Nathan Felipi Almeida].
+
+---

@@ -1,74 +1,107 @@
 package dev.nathan.products.service;
 
+import dev.nathan.products.dto.ProductsDTO;
+import dev.nathan.products.dto.ProductsFormDTO;
+import dev.nathan.products.dto.ProductsDetailsDTO;
 import dev.nathan.products.model.Products;
 import dev.nathan.products.repository.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
- * Serviço responsável por lidar com as operações relacionadas a produtos.
+ * Service for handling product-related operations.
  */
 @Service
 public class ProductsService {
 
+    private final ProductsRepository productsRepository;
+
     @Autowired
-    private ProductsRepository productsRepository;
-
-    /**
-     * Cria um novo produto e o salva no banco de dados.
-     *
-     * @param product O produto a ser criado.
-     * @return O produto salvo.
-     */
-    public Products createProduct(Products product) {
-        return productsRepository.save(product);
+    public ProductsService(ProductsRepository productsRepository) {
+        this.productsRepository = productsRepository;
     }
 
     /**
-     * Retorna uma lista de todos os produtos.
+     * Creates a new product.
      *
-     * @return Lista de produtos.
+     * @param formDTO DTO containing product details.
+     * @return The created product.
      */
-    public List<Products> getAllProducts() {
-        return productsRepository.findAll();
+    public ProductsDTO createProduct(ProductsFormDTO formDTO) {
+        Products product = new Products();
+        product.setProductName(formDTO.getProductName());
+        product.setSupplier(formDTO.getSupplier());
+        product.setImageUrl(formDTO.getImageUrl());
+        product.setPrice(formDTO.getPrice());
+        product.setWeight(formDTO.getWeight());
+
+        Products savedProduct = productsRepository.save(product);
+        return convertToDTO(savedProduct);
     }
 
     /**
-     * Busca um produto pelo seu ID.
+     * Gets all products.
      *
-     * @param id O ID do produto.
-     * @return Um Optional contendo o produto, se encontrado.
+     * @return A list of all products.
      */
-    public Optional<Products> getByIdProduct(Long id) {
-        return productsRepository.findById(id);
+    public List<ProductsDTO> getAllProducts() {
+        return productsRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     /**
-     * Atualiza as informações de um produto existente.
+     * Gets product details by ID.
      *
-     * @param id             O ID do produto a ser atualizado.
-     * @param productDetails Os detalhes atualizados do produto.
-     * @return O produto atualizado.
+     * @param id The ID of the product.
+     * @return Product details.
      */
-    public Products updateProduct(Long id, Products productDetails) {
-        Products product = productsRepository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
-        product.setProductName(productDetails.getProductName());
-        product.setSupplier(productDetails.getSupplier());
-        product.setImageUrl(productDetails.getImageUrl());
-        product.setPrice(productDetails.getPrice());
-        product.setWeight(productDetails.getWeight());
-        return productsRepository.save(product);
+    public ProductsDetailsDTO getProductById(Long id) {
+        Products product = productsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        return convertToDetailsDTO(product);
     }
 
     /**
-     * Deleta um produto pelo seu ID.
+     * Updates an existing product.
      *
-     * @param id O ID do produto a ser deletado.
+     * @param id      The ID of the product to be updated.
+     * @param formDTO DTO containing updated product details.
+     * @return The updated product.
+     */
+    public ProductsDTO updateProduct(Long id, ProductsFormDTO formDTO) {
+        Products product = productsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setProductName(formDTO.getProductName());
+        product.setSupplier(formDTO.getSupplier());
+        product.setImageUrl(formDTO.getImageUrl());
+        product.setPrice(formDTO.getPrice());
+        product.setWeight(formDTO.getWeight());
+
+        Products updatedProduct = productsRepository.save(product);
+        return convertToDTO(updatedProduct);
+    }
+
+    /**
+     * Deletes a product by its ID.
+     *
+     * @param id The ID of the product to be deleted.
      */
     public void deleteProduct(Long id) {
         productsRepository.deleteById(id);
+    }
+
+    private ProductsDTO convertToDTO(Products product) {
+        return new ProductsDTO(product.getId(), product.getProductName(), product.getSupplier(),
+                product.getImageUrl(), product.getPrice(), product.getWeight());
+    }
+
+    private ProductsDetailsDTO convertToDetailsDTO(Products product) {
+        return new ProductsDetailsDTO(product.getId(), product.getProductName(),
+                product.getSupplier(), product.getPrice(), product.getWeight());
     }
 }
